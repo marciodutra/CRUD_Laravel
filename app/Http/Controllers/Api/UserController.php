@@ -74,7 +74,7 @@ class UserController extends Controller
                 'password' => $request->password,
 
             ]);
-            
+
             DB::commit();
 
             return response()->json([
@@ -84,7 +84,7 @@ class UserController extends Controller
             ], 200);
 
         }catch(Exception $e){
-            
+
             DB::rollBack();
 
             return response()->json([
@@ -92,6 +92,27 @@ class UserController extends Controller
                 'message' => "Usuário não editado!",
             ], 400);
         }
-       
+
+    }
+
+    public function destroy(User $user) : JsonResponse
+    {
+        try{
+
+            $user->delete();
+
+            return response()->json([
+                'status' => true,
+                'user' => $user,
+                'message' => "Usuário apagado com sucesso!",
+            ], 200);
+
+
+        }catch(Exception $e){
+            return response()->json([
+                'status' => false,
+                'message' => "Usuário não apagado!",
+            ], 400);
+        }
     }
 }
